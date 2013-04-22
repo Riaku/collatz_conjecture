@@ -1,0 +1,36 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io.connect('http://isitwierd.info');
+    window.onload = function(){
+
+    };
+
+    function sendNumber(){
+        var input = document.getElementById('input');
+        var display = document.getElementById('display');
+        socket.emit('number', {msg:input.value});
+    }
+    socket.on('message', function (data) {
+        display.value = display.value+data.msg+'\n'
+        console.log(data.msg)
+    });
+    socket.on('alert', function (data) {
+        alert(data.msg);
+    });
+</script>
+<style type="text/css">
+.buttons {
+	width: 20%;
+}
+.body {
+	width: 78%;
+	float: right;
+}
+</style>
+<p>
+  <textarea id="display" readonly name="display" cols="50" rows="20">Waiting for connection...</textarea>
+</p>
+<p>
+  <input type="text" name="input" id="input" value="10" size="45">
+  <input type="submit" id="send" value="Submit" onClick="sendNumber()">
+</p>
